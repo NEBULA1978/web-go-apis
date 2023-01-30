@@ -18,3 +18,43 @@ http://127.0.0.1:8080/
 
 2ª)
 curl 127.0.0.1:8080404 page not found
+
+
+SERVIR CONTENIDO ESTATICO:
+Serian los archivos css, javascript, imagenes ,ficheros .txt
+
+Creamos carpeta:
+ static y entramos dentro y creamos un archivo css:
+ hola.css
+
+AÑADIMOS AL ARCHIVO server.go:
+
+package main
+
+import (
+        "net/http"
+        )
+
+func main() {
+							//wardamos en variable fs y Definomos con http rl FileServer y le indicamos donde va a find archivos estaticos
+				fs := http.FileServer(http.Dir("./static"))
+				// Le indicamos al servidor http que  cuando le llegen peticiones en /static utilice  http.StripPrefix("/static/", fs))
+				http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+        http.ListenAndServe(":8080", nil)
+        }
+
+
+Para ver el contenido estatico de hola.css:
+
+1ª)POR CONSOLA BASH
+curl 127.0.0.1:8080/static/hola.css
+
+2ª)POR PAGINA WEB
+http://127.0.0.1:8080/static/hola.css
+
+
+
+
+
+
