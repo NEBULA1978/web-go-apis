@@ -2,6 +2,7 @@ package main
 
 import (
         "net/http"
+				"fmt"
         )
 
 func main() {
@@ -12,6 +13,18 @@ func main() {
 
 				// Definimos la ruta que llamará la función home
 				http.HandleFunc("/", home)
+
+
+				// Con el segundo método hemos creado la función en el mismo lugar que creamos la ruta y usamos el paquete "fmt"(Que tenéis que agregar en la sección de los imports) para servir el contenido de una forma un poco mas elegante:
+			http.HandleFunc("/info", func(w http.ResponseWriter, req *http.Request) { 
+ 							// Paquete fmt es standar para formatear datos con go
+							fmt.Fprintln(w, "Host: ",req.Host)
+							// Fprintln para escribir
+ 							fmt.Fprintln(w, "URI: ",req.RequestURI)
+ 							fmt.Fprintln(w, "Method: ",req.Method)
+ 							fmt.Fprintln(w, "RemoteAddr: ",req.RemoteAddr)
+ 							})
+						
 
         http.ListenAndServe(":8080", nil)
         }
